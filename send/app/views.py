@@ -1,4 +1,7 @@
 from app import app
+import Node
+import Drawer
+import pygame
 
 from flask import render_template, request, redirect, jsonify, make_response, flash
 
@@ -65,7 +68,17 @@ def start():
         myMap.calculate_dist()
         measure = True
     if args.get("slam") == "true":
+        FILES = ['ivan_room.txt']
+        nodes = []
+        for i in range(len(FILES)):
+            n = Node.Node(0, 0, 0, i)
+            n.set_measurement_file(FILES[i])
+            n.segment()
+            nodes.append(n)
+        Drawer.draw_to_image(nodes, [], 'app/static/img/test.png')
         slam = True
+        pygame.display.quit()
+        #pygame.quit()
     print(args)
 
     
